@@ -26,6 +26,7 @@ jobs:
           SHA=$(git ls-remote https://github.com/kangsaem/moneypiee refs/heads/main | cut -f1)
           LIVE=$(curl -fsS -m 15 https://money.kangyonz.com/.sync-sha 2>/dev/null | tr -d '[:space:]' || true)
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "원본 $SHA · 사이트 ${LIVE:-없음}"
           if [ "$SHA" = "$LIVE" ] && [ "${{ github.event_name }}" = "schedule" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "변경 없음 $SHA"; fi
       - name: moneypiee 가져오기
         if: steps.chk.outputs.skip != '1'
