@@ -1336,3 +1336,8 @@
 - 데이터는 주소별로 따로(빈 앱으로 시작, 옮기려면 저장하기 → 불러오기). 사파리 즐겨찾기 아이콘도 섞이지 않음.
 - 확인: 배포 성공, Actions에서 https://money.kangyonz.com/.sync-sha = bc626cc(원본 main과 같음).
 - 11:05 복제본 시장 지표 403: 프록시 Worker(moneypie-proxy)가 Origin 허용 목록(moneypie.kr만)으로 막음. cloudflare/proxy-worker.js ORIGINS에 https://money.kangyonz.com 추가 → 대시보드에 붙여넣기 배포 필요(사용자, MCP에 쓰기 도구 없음).
+- 11:12 복제본 애드핏: 복제본 전용 광고단위 DAN-5JPEh6XhBm06ACKq(320×50)로 바꿔 넣음(MONEY sync.yml — 원본 DAN-mgWowulkqYj3kO2r를 치환, 위치는 원본과 같은 상단 고정 띠). 애드센스는 계속 뺌(kangyonz.com 승인 전).
+- 11:30 kangyonz.com 본 주소 = DTMD(저장소 kangsaem/KANGYONZ, Pages Source = GitHub Actions). sync.yml이 10분마다 moneypiee의 scuba.html·dtmd*·scuba-bg/splash·sample-*.jpg·tut/를 복사(scuba.html → index.html도), 광고(애드핏·애드센스) 뺌, ads.txt = 'google.com, pub-7103292552862249, DIRECT, f08c47fec0942fa0'.
+  가비아: @ A 185.199.108~111.153 · www CNAME kangsaem.github.io. parking 저장소(옛 www.kangyonz.com 주차 페이지)는 도메인 해제만, 저장소는 보관.
+  목적: 애드센스는 루트 도메인(kangyonz.com) 단위 승인 → 본 주소에 내용 + ads.txt. 광고는 하위 주소(money.)에만. 확인: https://kangyonz.com/.sync-sha·/ads.txt 응답 정상.
+- 11:35 애드센스 스크립트(adsbygoogle.js, ca-pub-7103292552862249) 제거: index.html·test.html(사용자 — moneypie.kr 애드센스 심사 탈락, 광고 안 뜨는데 스크립트만 로드). 클론(money.kangyonz.com)은 동기화 때 원래 빼고 있었음 → 셋 다 없음. 애드핏은 그대로.
