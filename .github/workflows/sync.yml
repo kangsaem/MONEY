@@ -1,4 +1,4 @@
-# moneypiee(main) → 이 저장소 main에 그대로 복사(광고만 뺌) + Pages 배포. 10분마다.
+# moneypiee(main) → 이 저장소 main에 그대로 복사 + Pages 배포. 10분마다. 애드센스는 뺌, 애드핏은 복제본 광고단위로 바꿈.
 name: sync-from-moneypiee
 on:
   schedule:
@@ -35,7 +35,7 @@ jobs:
           for p in glob.glob('me/**/*.html', recursive=True):
               s = open(p, encoding='utf-8', errors='surrogateescape').read()
               t = re.sub(r'<script[^>]*adsbygoogle\.js[^>]*>\s*</script>', '', s)
-              t = re.sub(r'<div id="adfit-bottom">.*?</div>', '', t, flags=re.S)
+              t = t.replace('DAN-mgWowulkqYj3kO2r', 'DAN-5JPEh6XhBm06ACKq')   # 애드핏: 복제본 전용 광고단위(상단 고정 띠, 2026-11-09)
               if t != s: open(p, 'w', encoding='utf-8', errors='surrogateescape').write(t)
           PY
           cd me
