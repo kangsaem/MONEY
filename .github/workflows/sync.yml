@@ -1,60 +1,49 @@
-# moneypiee(main) → money.kangyonz.com 자동 복사 (2026-11-09)
-# 10분마다 moneypiee main 커밋을 확인해 바뀌었으면 그대로 복사해 배포. 광고(애드센스·애드핏)만 뺌.
+# moneypiee(main) → 이 저장소 main에 그대로 복사(광고만 뺌) + Pages 배포. 10분마다.
 name: sync-from-moneypiee
 on:
   schedule:
     - cron: '*/10 * * * *'
   workflow_dispatch:
-  repository_dispatch:
-    types: [sync]
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
   group: pages
   cancel-in-progress: false
 jobs:
-  deploy:
+  sync:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
     steps:
-      - name: 바뀌었나 확인
-        id: chk
-        run: |
-          SHA=$(git ls-remote https://github.com/kangsaem/moneypiee refs/heads/main | cut -f1)
-          LIVE=$(curl -fsS -m 15 https://money.kangyonz.com/.sync-sha 2>/dev/null | tr -d '[:space:]' || true)
-          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
-          echo "원본 $SHA · 사이트 ${LIVE:-없음}"
-          if [ "$SHA" = "$LIVE" ] && [ "${{ github.event_name }}" = "schedule" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "변경 없음 $SHA"; fi
-      - name: moneypiee 가져오기
-        if: steps.chk.outputs.skip != '1'
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          path: me
+      - uses: actions/checkout@v4
         with:
           repository: kangsaem/moneypiee
-          ref: ${{ steps.chk.outputs.sha }}
-          path: site
-      - name: 복사본용 손질(광고 제거·도메인)
-        if: steps.chk.outputs.skip != '1'
+          path: src
+      - name: 복사
         run: |
-          rm -rf site/.git site/.github
-          echo money.kangyonz.com > site/CNAME
-          echo "${{ steps.chk.outputs.sha }}" > site/.sync-sha
+          SHA=$(git -C src rev-parse HEAD)
+          rsync -a --delete --exclude .git --exclude .github --exclude CNAME src/ me/
+          echo money.kangyonz.com > me/CNAME
+          echo "$SHA" > me/.sync-sha
           python3 - <<'PY'
           import glob, re
-          for p in glob.glob('site/**/*.html', recursive=True):
+          for p in glob.glob('me/**/*.html', recursive=True):
               s = open(p, encoding='utf-8', errors='surrogateescape').read()
               t = re.sub(r'<script[^>]*adsbygoogle\.js[^>]*>\s*</script>', '', s)
               t = re.sub(r'<div id="adfit-bottom">.*?</div>', '', t, flags=re.S)
-              if t != s:
-                  open(p, 'w', encoding='utf-8', errors='surrogateescape').write(t); print('광고 제거', p)
+              if t != s: open(p, 'w', encoding='utf-8', errors='surrogateescape').write(t)
           PY
+          cd me
+          git config user.name 'sync-bot'; git config user.email 'sync-bot@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then echo "변경 없음 $SHA"; else git commit -qm "sync moneypiee $SHA" && git push -q; fi
       - uses: actions/configure-pages@v5
-        if: steps.chk.outputs.skip != '1'
       - uses: actions/upload-pages-artifact@v3
-        if: steps.chk.outputs.skip != '1'
         with:
-          path: site
+          path: me
       - uses: actions/deploy-pages@v4
-        if: steps.chk.outputs.skip != '1'
