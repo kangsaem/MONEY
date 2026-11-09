@@ -1,0 +1,59 @@
+# moneypiee(main) → money.kangyonz.com 자동 복사 (2026-11-09)
+# 10분마다 moneypiee main 커밋을 확인해 바뀌었으면 그대로 복사해 배포. 광고(애드센스·애드핏)만 뺌.
+name: sync-from-moneypiee
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [sync]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - name: 바뀌었나 확인
+        id: chk
+        run: |
+          SHA=$(git ls-remote https://github.com/kangsaem/moneypiee refs/heads/main | cut -f1)
+          LIVE=$(curl -fsS -m 15 https://money.kangyonz.com/.sync-sha 2>/dev/null | tr -d '[:space:]' || true)
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          if [ "$SHA" = "$LIVE" ] && [ "${{ github.event_name }}" = "schedule" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "변경 없음 $SHA"; fi
+      - name: moneypiee 가져오기
+        if: steps.chk.outputs.skip != '1'
+        uses: actions/checkout@v4
+        with:
+          repository: kangsaem/moneypiee
+          ref: ${{ steps.chk.outputs.sha }}
+          path: site
+      - name: 복사본용 손질(광고 제거·도메인)
+        if: steps.chk.outputs.skip != '1'
+        run: |
+          rm -rf site/.git site/.github
+          echo money.kangyonz.com > site/CNAME
+          echo "${{ steps.chk.outputs.sha }}" > site/.sync-sha
+          python3 - <<'PY'
+          import glob, re
+          for p in glob.glob('site/**/*.html', recursive=True):
+              s = open(p, encoding='utf-8', errors='surrogateescape').read()
+              t = re.sub(r'<script[^>]*adsbygoogle\.js[^>]*>\s*</script>', '', s)
+              t = re.sub(r'<div id="adfit-bottom">.*?</div>', '', t, flags=re.S)
+              if t != s:
+                  open(p, 'w', encoding='utf-8', errors='surrogateescape').write(t); print('광고 제거', p)
+          PY
+      - uses: actions/configure-pages@v5
+        if: steps.chk.outputs.skip != '1'
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.chk.outputs.skip != '1'
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4
+        if: steps.chk.outputs.skip != '1'
