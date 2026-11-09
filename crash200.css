@@ -1,0 +1,268 @@
+
+/* 머니파이 다크 테마 그대로: 한 장짜리 표 + 조건 칩 + 짧은 메모 */
+/* 2026-11-03: 아이폰 가로 → 세로로 돌릴 때 사파리가 글자를 키우던 문제(자동 글자 크기 조정 끔, 머니파이 index와 같음) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+:root{
+  --bg:#1E1F22; --surface:#28292D; --surface2:#313338; --border:#3D3E43;
+  --text:#E8ECF3; --text-dim:#9A9BA1; --sub:#C9C9C9;
+  --up:#E87BA4; --dn:#5FB8E0; --ok:#4FD1C0; --amber:#F0B44A;
+  --upbg:rgba(232,123,164,.14); --dnbg:rgba(95,184,224,.14); --okbg:rgba(79,209,192,.14);
+  --font:'Inter',-apple-system,'Segoe UI','Apple SD Gothic Neo','Malgun Gothic',Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 32px;display:flex;flex-direction:column;gap:14px}
+.sec{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+h2{font-size:15px;font-weight:600;margin:0;text-wrap:balance}
+.meta{font-size:12px;color:var(--text-dim)}
+.acc{background:var(--surface);border-radius:8px;gap:0}
+.acc summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;flex-direction:column;gap:2px;position:relative;padding-right:36px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"";position:absolute;right:16px;top:50%;width:7px;height:7px;border-right:1.5px solid var(--text-dim);border-bottom:1.5px solid var(--text-dim);transform:translateY(-70%) rotate(45deg);transition:transform .15s}
+.acc[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.acc summary:focus-visible{outline:1.5px solid var(--dn);outline-offset:-2px;border-radius:8px}
+.lv-st{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.lv-lines{display:flex;flex-direction:column;gap:1px}
+#lvL1{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.acc.live>summary{background:#C9C9C9;color:#1E1F22;border-radius:8px 8px 0 0}
+.acc.live:not([open])>summary{border-radius:8px}
+.acc.live>summary .dim,.acc.live>summary #reloadPricesLabel{color:#4A4B50!important}
+.acc.live>summary .up{color:#C2185B} .acc.live>summary .dn{color:#1565C0}
+.acc.live>summary::after{border-color:#4A4B50}
+#lvTime{font-size:12px;font-weight:400}
+.lv-btns{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.acc .st{font-size:14px;font-weight:600}
+.acc .tbl{border-radius:0 0 8px 8px;border-top:1px solid var(--border)}
+.acc,.acc+.acc{margin-top:0}
+@media (prefers-reduced-motion:reduce){.acc summary::after{transition:none}}
+.acc.key .st{color:inherit}
+.chipv{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-weight:600}
+.chipv.dn{background:#2B78B5;color:#fff} .chipv.up{background:#C2185B;color:#fff}
+.acc .meta.up{color:var(--up)}
+.issue.hit{color:var(--up);font-weight:500}
+.hitrow td{background:var(--upbg)}
+h1{font-size:17px;font-weight:600;margin:0;text-wrap:balance}
+.cond{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:500;padding:3px 8px;border-radius:6px;background:var(--surface2);color:var(--sub)}
+.chip.dn{background:var(--dnbg);color:var(--dn)}
+.chip.ok{background:var(--okbg);color:var(--ok)}
+.tbl{overflow-x:auto;background:var(--surface);border-radius:8px}
+table{width:100%;border-collapse:collapse;min-width:860px;font-variant-numeric:tabular-nums}
+th{font-size:11.5px;font-weight:500;color:var(--text-dim);text-align:right;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td{padding:12px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap;font-weight:500}
+tr:last-child td{border-bottom:0}
+.date{font-weight:600}
+.issue{display:block;font-size:12px;font-weight:400;color:var(--text-dim);margin-top:2px;white-space:normal;max-width:240px}
+.up{color:var(--up)} .dn{color:var(--dn)} .dim{color:var(--text-dim);font-weight:400}
+table{table-layout:fixed}
+th:nth-child(1){width:23%} th:nth-child(2){width:11%} th:nth-child(3){width:12%} th:nth-child(4){width:14%}
+th:nth-child(5){width:15%} th:nth-child(6){width:10%} th:nth-child(7){width:15%}
+th{white-space:normal;word-break:keep-all;vertical-align:bottom}   /* 2026-10-14 열 이름이 길어져 줄바꿈 허용 */
+td{overflow-wrap:anywhere}
+.d.up{color:var(--up)} .d.dn{color:var(--dn)}
+.d{white-space:normal;display:block;font-size:11.5px;font-weight:400;color:var(--text-dim)}
+.grp td{background:var(--surface2);color:var(--text);font-weight:600;font-size:12.5px;padding:8px 12px;text-align:left}
+.grp td span{color:var(--text-dim);font-weight:400;margin-left:8px}
+.issue.miss{color:var(--border)}
+.issue.big{color:#F2A65A;font-weight:600} .chipv.big{background:#F2A65A;color:#1E1F22}   /* 추가 하락이 가장 컸던 사례(2000-03-09 IT버블 붕괴): 이슈 주황 글자, 추가 하락 값은 주황 반전 */
+.fast td{background:rgba(79,209,192,.07)}
+.badge{display:inline-block;font-size:11px;padding:1px 6px;border-radius:4px;background:var(--ok);color:var(--bg);font-weight:600;margin-left:4px}
+.note{background:var(--surface);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--sub)}
+.note b{color:var(--text);font-weight:600}
+.note li.hl{color:var(--up);font-weight:500}
+.note li.hl2{color:var(--dn);font-weight:500}
+.now{background:var(--upbg);box-shadow:inset 0 0 0 1px var(--up)}
+.now b{color:var(--up)}
+.now .v{color:var(--up);font-weight:600}
+ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.src{font-size:11.5px;color:var(--text-dim)}
+
+body{margin:0}
+.head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.head h1{flex:1;min-width:0}
+@keyframes reloadSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.reload-spin{animation:reloadSpin .6s linear}
+.lv-body{border-top:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.lv-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.lv-grid>div{display:flex;flex-direction:column;gap:1px;min-width:0}
+.lv-grid .k{font-size:11.5px;color:var(--text-dim)}
+.lv-grid .v{font-size:16px;color:var(--text);font-variant-numeric:tabular-nums}
+.live .s{font-size:12px;color:var(--text-dim);font-variant-numeric:tabular-nums}
+.live .s.up{color:var(--up)} .live .s.dn{color:var(--dn)}
+.lv-judge{font-size:13px;font-weight:600;color:var(--text)}
+.lv-judge.hit{color:var(--up)}
+
+/* 모바일(600px 이하): 표 → 카드. 한 사례 = 카드 한 장, 라벨·값 2열 */
+@media (max-width:600px){
+  .tbl{overflow-x:visible}
+  .tbl table{min-width:0;table-layout:auto}
+  .tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;width:auto}
+  .tbl thead{display:none}
+  .tbl tr{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px 10px;padding:12px 14px;border-bottom:1px solid var(--border)}
+  .tbl tr:last-child{border-bottom:0}
+  .tbl td{padding:0;border:0;text-align:left;white-space:normal;background:none!important}
+  .tbl td:first-child{grid-column:1/-1}
+  .tbl td:nth-child(n+2):nth-child(-n+4){grid-column:span 4}
+  .tbl td:nth-child(n+5){grid-column:span 4}
+  .tbl td{overflow-wrap:normal;word-break:keep-all}
+  .tbl td:not(:first-child)::before{content:attr(data-label);display:block;font-size:11px;font-weight:400;color:var(--text-dim);margin-bottom:1px}
+  .tbl .issue{max-width:none}
+  .tbl tr.fast{background:rgba(79,209,192,.07)}
+  .tbl tr.hitrow{background:var(--upbg)}
+}
+html.embed .back{display:none;}
+/* 2026-10-14 2차: 사례 = 카드(날짜·당일 칩·이슈 → 그래프 → 세부내용 접힘), PC·모바일 같은 형식 */
+.cards{border-top:1px solid var(--border)}
+.case{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+.case:last-child{border-bottom:0}
+.case.fast{background:none} .case.hitrow{background:var(--upbg)}
+.case .ch{display:flex;flex-wrap:wrap;align-items:center;gap:2px 0}
+.case .ch .issue{flex-basis:100%;max-width:none;margin-top:1px}
+.case .gch:empty{display:none}
+.acc .cdet>summary{list-style:none;cursor:pointer;font-size:12px;color:var(--text-dim);display:inline-flex;flex-direction:row;align-items:center;gap:4px;padding:0;position:static}
+.cdet>summary::-webkit-details-marker{display:none}
+.acc .cdet>summary::after,.acc .cdet[open]>summary::after{content:"▾";position:static;width:auto;height:auto;border:0;transform:none;font-size:10px}
+.acc .cdet[open]>summary::after{content:"▴"}
+.cgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px 12px;margin-top:8px;font-weight:500;font-variant-numeric:tabular-nums}
+.cgrid .k{display:block;font-size:11px;font-weight:400;color:var(--text-dim);margin-bottom:1px}
+.cv{min-width:0;word-break:keep-all}
+@media (max-width:600px){ .cgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+/* 2026-10-14: ▲▼ 숫자 + 작은 %(머니파이 경제지표 모양), 당일 등락률 = 날짜 옆 하늘색 칩, 큰 값 + 작은 설명 */
+.pc{font-size:.7em;margin-left:1px}
+.chipv.day{background:#5FB8E0;color:#fff;font-size:11.5px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.chipv.day.up{background:#E87BA4}
+#lvL1h{display:flex;align-items:baseline;gap:8px}
+#lvL1c{font-size:14px;font-weight:700}
+.acc.live>summary #lvL1c.up{color:#C2185B} .acc.live>summary #lvL1c.dn{color:#1565C0}
+td .big{font-weight:600}
+.gbtn{display:inline-block;margin-top:5px;font:inherit;font-size:11px;padding:1px 8px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer}
+.gbtn[aria-expanded="true"]{color:var(--text);border-color:var(--sub)}
+tr.grow td{padding:4px 12px 12px;white-space:normal;text-align:left}
+@media (max-width:600px){ .tbl tr.grow{padding-top:0} .tbl tr.grow td::before{display:none} }
+/* 그래프: 머니파이 V1 지수 차트와 같은 모양(칩·설명 없음, 기간 고정) */
+.gch{--c5:#F472B6;--c20:#F87171;--cw5:#A3E635;--cw10:#22C55E;--cm5:#60A5FA;--cm10:#818CF8}
+.gch .an-lg{display:flex;flex-wrap:wrap;gap:3px 12px;align-items:center;font-size:10.5px;color:var(--text-dim);margin:2px 0}
+.gch .an-lgi{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.gch .an-sw{display:inline-block;width:9px;height:9px;border-radius:2px}
+.gch .an-sw-close{background:var(--text);border-radius:50%} .gch .an-sw-ma5{background:var(--c5)} .gch .an-sw-ma20{background:var(--c20)}
+.gch .an-sw-w5{background:var(--cw5)} .gch .an-sw-w10{background:var(--cw10)} .gch .an-sw-m5{background:var(--cm5)} .gch .an-sw-m10{background:var(--cm10)} .gch .an-sw-ma200{background:#FF0000}
+.gch .an-svgbox{position:relative}
+.gch .an-chart{width:100%;height:auto;display:block}
+.gch .an-chart path{fill:none;stroke-linejoin:round;stroke-linecap:round;stroke-width:1px;vector-effect:non-scaling-stroke}
+.gch .an-chart line{vector-effect:non-scaling-stroke;stroke-width:1px}
+.gch .an-ch-bg{fill:none;stroke:var(--border)}
+.gch .an-ch-close{stroke:var(--text);stroke-width:1.4px!important}
+.gch .an-ch-ma5{stroke:var(--c5)} .gch .an-ch-ma20{stroke:var(--c20)} .gch .an-ch-w5{stroke:var(--cw5)} .gch .an-ch-w10{stroke:var(--cw10)}
+.gch .an-ch-m5{stroke:var(--cm5)} .gch .an-ch-m10{stroke:var(--cm10)} .gch .an-ch-ma200{stroke:#FF0000}
+.gch .an-ch-w5,.gch .an-ch-w10,.gch .an-ch-m5,.gch .an-ch-m10{opacity:.6}   /* 200일선·종가 외 투명도 0.6 */
+.gch .g-green{fill:#A3E635;opacity:.25} .gch .g-blue{fill:#5FB8E0;opacity:.25}
+.gch .g-up{stroke:#FF3B30;stroke-dasharray:3 3;opacity:.9}
+.gch .g-uplab{fill:#FF6B6B;font-size:9.5px;font-weight:600}
+.gch .an-cper{display:flex;gap:3px;margin:2px 0 4px} .gch .an-cper button{font:inherit;font-size:11px;height:22px;padding:0 8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer}
+.gch .an-cper button.on{background:var(--surface2);color:var(--text);border-color:#C9C9C9}
+.rchip{display:inline-block;margin-left:6px;font-size:11px;font-weight:600;line-height:1.3;padding:1px 6px;border:1px solid #D4FF3D;border-radius:6px;color:#D4FF3D;vertical-align:1px;white-space:nowrap}
+.gch .an-ch-vl{stroke:var(--text);opacity:.1} .gch .an-ch-mo{fill:var(--text-dim);font-size:9px} .gch .an-ch-t{fill:var(--text-dim);font-size:9px}
+.gch .an-lastdot{position:absolute;width:9px;height:9px;border-radius:50%;background:#FFFFFF;border:2px solid #1E1F22;box-shadow:0 0 0 1px rgba(255,255,255,.35);transform:translate(-50%,-50%);box-sizing:border-box;pointer-events:none}
+.gch .an-lastlbl{position:absolute;transform:translateY(-100%);font-size:11px;font-weight:700;line-height:1;white-space:nowrap;color:var(--text);text-shadow:0 0 3px var(--surface),0 0 3px var(--surface);pointer-events:none}
+.gch .gnone{font-size:12px;color:var(--text-dim);padding:6px 0}
+.back{display:inline-flex;align-items:center;gap:7px;margin:2px 0 12px;font-size:18px;color:var(--text);text-decoration:none;} .back b{font-weight:700}
+
+/* 2026-10-14 4차: 세 지수 공용(crash200.js) */
+.case.hitrow{background:none}
+.case .ch2{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.case .ch2 .issue{display:inline;margin:0;max-width:none}
+.dbtn{font:inherit;font-size:11.5px;padding:1px 8px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;flex-shrink:0}
+.dbtn[aria-expanded="true"]{color:var(--text);border-color:var(--sub)}
+.covid{font-size:12px;font-weight:600;color:var(--up)}
+.case .cgrid{margin-top:2px}
+.gch .an-ch-w60{stroke:#C084FC}
+.gch .an-ch-w5,.gch .an-ch-w10,.gch .an-ch-w60{opacity:.6}
+.gch .g-gray{fill:#000;opacity:.5}
+.gch .g-blue{fill:#5FB8E0;opacity:.3}
+.gch .g-up{stroke:#FF3B30;stroke-dasharray:3 3;opacity:.9}   /* 200일선 돌파 = 모두 빨간 점선(2026-10-14) */
+.gch .g-low{stroke:#FF3B30;stroke-dasharray:3 3}
+.gch .g-lowmk{fill:#FF3B30;font-size:10px}
+.cgrid[hidden]{display:none!important}
+.note .gn-r{color:#FF3B30;font-weight:600} .note .gn-b{color:#5FB8E0;font-weight:600}
+/* 2026-10-14 14:05 */
+.chipv.day,.chipv.day.up{color:#1E1F22}                       /* 하락 칩: 하늘색 채움 유지, 글자·삼각형 = 어두운 배경색 */
+.dbtn,.case .ch2 .issue{color:var(--text)}                     /* 세부내용 버튼·이슈 = 날짜와 같은 글자색 */
+.case .ch2 .issue.miss{color:var(--text-dim)} .case .ch2 .issue.big{color:#F2A65A}
+.glg{margin-left:auto;display:inline-flex;flex-wrap:wrap;gap:3px 12px;align-items:center;font-size:10.5px;color:var(--text-dim)}
+.glg .lgi{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.glg .sw{display:inline-block;width:9px;height:9px;border-radius:2px}
+.glg .sw-close{background:var(--text);border-radius:50%} .glg .sw-w5{background:#A3E635} .glg .sw-w10{background:#22C55E} .glg .sw-w60{background:#C084FC} .glg .sw-ma200{background:#FF0000}
+.closeall{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;margin-top:6px}   /* 맨 위 회색 제목 줄 아래 가운데(2026-10-14) */
+.closeall>button{grid-column:2}
+.xpages{grid-column:3;justify-self:end;display:flex;gap:6px}
+@media (max-width:600px){ .xpage .xw{display:none} }
+.xpage{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:6px;border:1px solid var(--xc);background:var(--xc);color:#1E1F22;text-decoration:none;white-space:nowrap}   /* 겹쳐 보기 칩을 켠 모양(채움) */
+details.acc[data-band]>summary{background:rgba(160,161,166,.14);border-radius:8px} details.acc[data-band][open]>summary{border-radius:8px 8px 0 0}   /* 그룹 제목 = 회색(투명), 열고 닫아도 같음(2026-10-15) */
+details.acc[data-band].nowband>summary{background:rgba(232,123,164,.18)}   /* 지금 이탈 중인 구간 = 연분홍(열어도 유지, 2026-10-15) */   /* 지금 이탈 중인 구간(닫힌 상태) = 연분홍 */
+.closeall button{font:inherit;font-size:12px;padding:2px 14px;border-radius:6px;border:1px solid #4A4B50;background:#4A4B50;color:#E8ECF3;cursor:pointer}   /* 반전(2026-10-14) */
+/* 다른 지수 겹쳐 보기(2026-10-14) */
+.xchips{display:inline-flex;gap:4px;margin-left:6px}
+.xchip{font:inherit;font-size:10.5px;font-weight:600;line-height:1.3;padding:1px 7px;border-radius:6px;border:1px solid var(--xc);background:transparent;color:var(--xc);cursor:pointer}
+.xchip[aria-pressed="true"]{background:var(--xc);color:#1E1F22}
+.xchip.na{opacity:.3;cursor:default}
+.gch .g-ov{fill:none;stroke-width:1.3px!important}
+/* 전체 열기/닫기 화살표(구간 탭 ::after와 같은 모양·회전) */
+#closeAll{display:inline-flex;align-items:center;gap:7px}
+#closeAll .cchev{display:inline-block;width:7px;height:7px;border-right:1.5px solid #E8ECF3;border-bottom:1.5px solid #E8ECF3;transform:translateY(25%) rotate(-135deg);transition:transform .15s}
+#closeAll.any .cchev{transform:translateY(-25%) rotate(45deg)}
+@media (prefers-reduced-motion:reduce){#closeAll .cchev{transition:none}}
+.case .ch2[hidden]{display:none}
+/* 사례 구간 아코디언 화살표 = 제목 왼쪽(2026-10-14) */
+details.acc[data-band]>summary{padding-left:34px;padding-right:14px}
+details.acc[data-band]>summary::after{left:14px;right:auto;top:20px}
+#lvRow.idle .ch,#lvRow.idle .dbtn,#lvRow.idle .cgrid,#lvRow.idle #lvIssue{display:none!important}   /* 평소(국면 없음): 그래프만 */
+#lvRow.idle .glg{margin-left:0}
+/* 2026-10-14 15:50 */
+#live>summary{padding-left:34px;padding-right:14px}
+#live>summary::after{left:14px;right:auto;top:24px}          /* 맨 위 현재 지수 카드 화살표도 왼쪽 */
+.dbtn{border-color:#9A9BA1}                                  /* 세부내용: 닫힘 = 테두리, 열림 = 반전 */
+.dbtn[aria-expanded="true"]{background:var(--text);color:#1E1F22;border-color:var(--text)}
+/* 2026-10-14 16:00: 전체 열기 + 다른 지수 같은 줄(좁으면 전체 열기가 왼쪽으로 밀림), 맨 위 기간 탭 줄 오른쪽 끝에 다른 지수 칩 */
+.closeall{display:flex!important;align-items:center;gap:6px}
+.closeall .ca-sp{flex:1 1 0;min-width:0}
+.closeall>button{flex:0 0 auto}
+.closeall .xpages{flex:1 0 0;min-width:max-content;display:flex;justify-content:flex-start;gap:6px;grid-column:auto}   /* 다른 지수 = 왼쪽 끝(2026-10-14 16:11) */
+.cper-row{display:flex;align-items:center;gap:6px;margin:2px 0 4px}
+.cper-row .an-cper{margin:0}
+.cper-row .xchips{margin-left:auto}
+.case .ch2 .xchips{margin-left:auto}   /* 사례 카드도 다른 지수 칩은 오른쪽 끝 */
+
+.rchip.live{border:none;padding:1px 2px;color:#FF4D4D}   /* 진행 중 국면: 칸 없이 빨간 글자(2026-10-15) */
+.chipv.day.after{margin-left:4px}   /* 과거 사례 제목: 이후 바닥까지 하락률(당일 하락 칩과 같은 모양) */
+.big.rchip{margin-left:0;font-size:inherit;padding:1px 6px}   /* 세부내용 지수회복까지: 연두 테두리·글자 */
+/* 2026-10-15 사례 카드: 제목 왼쪽 그래프 열기/닫기 · 세부내용 오른쪽 · 색상표·다른 지수 칩 = 그래프 바로 위 */
+.gtog{width:22px;height:22px;margin:0 6px 0 -4px;padding:0;border:0;background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.gtog i{width:7px;height:7px;border-right:1.5px solid var(--text-dim);border-bottom:1.5px solid var(--text-dim);transform:translateY(2px) rotate(-135deg);transition:transform .15s}
+.case.gclosed .gtog i{transform:translateY(-2px) rotate(45deg)}
+.case .glrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:4px 10px}   /* 다른 지수 칩 = 200일 색상표 바로 오른쪽 */
+.case .glrow .glg{margin-left:0}
+.case.gclosed .glrow,.case.gclosed .gch{display:none}
+/* 열린 탭 = 위쪽 테두리만 밝은 회색 가는 줄(2026-10-15) */
+details.acc[open]{box-shadow:inset 0 1px 0 rgba(255,255,255,.38)}
+.fastx{margin-left:6px;font-size:11.5px;font-weight:600;color:#D4FF3D;white-space:nowrap}   /* 즉시 회복 사례: 영역 채색 대신 연두 글자(2026-10-15) */
+#lvRow .glrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:4px 10px}
+#lvRow .glrow .glg{margin-left:0}
+#lvPer{display:inline-flex;gap:3px} #lvPer button{font:inherit;font-size:11px;height:22px;padding:0 8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer}
+#lvPer button.on{background:var(--surface2);color:var(--text);border-color:#C9C9C9}
+#lvRow .ch2 .issue{flex-basis:100%}
+/* 요약(2026-10-15): 최소·최대·중간값만, 나머지는 '자세히' 접힘 */
+.note ul.sum{margin-bottom:6px} .note ul.sum li{margin-bottom:6px;line-height:1.6} .note ul.sum b{color:var(--text)} .note .sd{color:var(--text-dim);font-size:.92em}
+.note details.nmore>summary{cursor:pointer;color:var(--text-dim);font-size:12px;margin:4px 0;list-style:none} .note details.nmore>summary::-webkit-details-marker{display:none}
+.note details.nmore>summary::before{content:'▸ '} .note details.nmore[open]>summary::before{content:'▾ '}
+/* 요약 색(2026-10-15): 하락 수치 = 하락색, 지수회복 거래일 = 연두, 전체 줄 = 다른 바탕의 칸, 자세히 = 작은 글자 */
+.note ul.sum .sdn,.note ul.sum .sdn .pc{color:var(--dn)} .note ul.sum .srec{color:#D4FF3D;font-weight:600}
+.note ul.sum li.sall{list-style:none;margin:0 0 10px -18px;padding:8px 10px;border-radius:8px;background:#34353A}
+.note details.nmore ul{font-size:11.5px;line-height:1.55} .note .ssky{color:#5FB8E0;font-weight:600}
+/* 붕괴 통계(2026-10-20) */
+.lvstat{display:flex;flex-direction:column;gap:2px;margin:6px 0 2px;font-size:12px;line-height:1.5;color:var(--sub)} .lvstat b{color:var(--text);font-weight:600} .lvstat b.up,.lvstat b.up .pc{color:var(--up)} .lvstat b.dn,.lvstat b.dn .pc{color:var(--dn)} .lvstat .sd{color:var(--text-dim)}
+.stat200{margin-top:10px} .stat200 .note{margin:0;border-radius:0 0 8px 8px} .stat200 .sd{color:var(--text-dim);font-size:.92em} .stat200 ul{margin:0;padding-left:18px} .stat200 li{margin-bottom:4px;line-height:1.55}
+.stt{border-collapse:collapse;width:100%;min-width:0;table-layout:auto;font-size:12.5px;margin-bottom:6px} .stt th{width:auto!important;padding:4px 6px;font-size:11.5px} .stt th,.stt td{padding:4px 6px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap} .stt th:first-child,.stt td:first-child{text-align:left} .stt th{color:var(--text-dim);font-weight:500} .stt tr.me td{color:var(--text);font-weight:600}
+/* 통계 제목 바 = 밝은 회색(2026-10-21, 맨 위 현재 지수 제목 바와 같은 색) */
+.stat200>summary{background:#C9C9C9;color:#1E1F22;border-radius:8px 8px 0 0} .stat200:not([open])>summary{border-radius:8px}
+.stat200>summary .st{color:#1E1F22} .stat200>summary .meta{color:#4A4B50} .stat200>summary::after{border-color:#1E1F22}
