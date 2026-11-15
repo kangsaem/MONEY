@@ -1,8 +1,29 @@
 # 스쿠버 감압 플래너 (scuba.html) 핸드오프
 
-최종 갱신: 2026-11-14 19:00 (v2.10.21) · 사이트: www.moneypie.kr/scuba · 저장소: kangsaem/moneypiee (main)
+최종 갱신: 2026-11-15 12:08 (v2.10.27) · 사이트: www.moneypie.kr/scuba · 저장소: kangsaem/moneypiee (main)
 시작 방법: 새 채팅 첫 메시지 = "DTMD 작업 재개. 깃허브 kangsaem/moneypiee 저장소(main)를 붙이고 SCUBA_HANDOFF.md 맨 앞 '▶▶ 새 대화 시작용'과 '기본화면'부터 읽은 뒤, 다음 할 일의 선택지와 추천을 보여줘. 예전 채팅 기록은 찾지 마." → 이 파일 기준으로 작업(예전 채팅 기록 검색 금지).
 
+
+## v2.10.27 (2026-11-15) 안내 문구(disc2) 과장 수정, 9개 언어
+- '대부분의 다이빙 컴퓨터에서 FIT…' → '가민·순토·어메이즈핏 등에서 내보낸 FIT 파일, 다이빙 로그 앱(Subsurface, MacDive 등)의 UDDF 파일, 순토 앱의 JSON 파일'. 근거: 쉐어워터·오셔닉+·SSI 등은 자체 형식이라 바로 못 가져옴, UDDF는 주로 로그 앱이 내보냄, 순토 앱은 FIT·JSON 내보내기 지원.
+
+## v2.10.26 (2026-11-15) 위쪽 흐림 대책 철회 + 상단 광고 복구(사용자 '여전히 흐림 그냥 광고 롤백')
+- 고정 띠 +16/32/56px 모두 효과 없음 → body::before는 원래대로(상태바 높이만), .wrap 위 여백 원래대로.
+- #adTop(애드핏 DAN-blDFwvjdoelHWCGb, 클론 DAN-F3MZMbNZPoka4ze1)과 시작 화면 노출 CSS를 v2.10.21 상태로 복구.
+- 결론: 아이폰 사파리 위쪽 흐림은 띠로 안 가려짐. 다시 다룰 땐 다른 방법(제목 줄 고정 층 등) 검토.
+
+## v2.10.25 (2026-11-15) 위쪽 고정 띠 한 번 더: 상태바+56px, .wrap 위 여백 상태바+60px(사용자 '더 내려').
+
+## v2.10.24 (2026-11-15) 위쪽 고정 띠 더 내림: 상태바+32px, .wrap 위 여백 상태바+36px(사용자 '더내려줘').
+
+## v2.10.23 (2026-11-15) 아이폰 사파리 위쪽 흐림 대책
+- 원인(머니파이 11/13 확인): iOS 26 사파리는 화면 맨 위 가장자리의 스크롤 내용을 그라데이션으로 흐리게 함, position:fixed 층은 제외.
+- 휴대폰 브라우저(pointer:coarse, 폭<780, display-mode:browser)에서 body::before 고정 띠(#284656)를 상태바+16px로, .wrap 위 여백 상태바+20px. 올라간 내용은 띠 아래로 깔끔히 사라짐. 홈 화면 앱(standalone)·PC·가로는 그대로.
+- 실제 아이폰 확인 대기. 덜 되면 띠 높이(16px) 조정 또는 머니파이식 제목 줄 고정 검토.
+
+## v2.10.22 (2026-11-15) 상단 광고 제거(사용자 요청)
+- scuba.html의 #adTop(애드핏 DAN-blDFwvjdoelHWCGb + ba.min.js) 통째로 삭제 → scuba.kangyonz.com(DAN-F3MZMbNZPoka4ze1)에서도 빠짐. #adTop 관련 CSS는 남겨 둠(요소 없으면 무해).
+- 되살릴 때 코드: <div id="adTop"><ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-blDFwvjdoelHWCGb" data-ad-width="320" data-ad-height="50"></ins><script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async></script></div> (.wrap 맨 앞) + 시작 화면 노출 CSS(html.spl #adTop fixed z101, html.spl #splash padding-top +58px)도 같이 지움. dtmd_sync.sh는 있으면 단위 교체, 없으면 그대로.
 
 ## v2.10.21 (2026-11-14) [FIT] 버튼을 맨 오른쪽으로
 - 날짜 보기(fitBtn2): ◀달력 ⏮ 날짜 ⏭ FIT. 달력(fitBtn): ⏮ ◀ 연/월 ▶ ⏭ FIT. 사용자 요청.
